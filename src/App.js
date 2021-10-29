@@ -1,22 +1,28 @@
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import React, { useState, useEffect } from 'react'
 
 function App() {
   
+  const [things, setThings] = useState(null);
+  
+  let name = null;
+
   function fetchData() {
-    return axios.get("https://api.agify.io/?name=joseph")
-      .then((response) => console.log(response.data));
+    axios.get("https://api.agify.io/?name=joseph").then((response) =>    setThings(response.data));
   }
 
-  let things = fetchData();
+  useEffect(() => {
+    fetchData();
+  },[])
 
-  console.log(things)
-  
-  //var obj = JSON.parse(things);
-  
-  //console.log(obj.name)
-
+  console.log("11" + things)
+   
+  if (things) {
+    console.log(things.name)
+    name = things.name
+  }
   return (
     <div className="App">
       <header className="App-header">
@@ -32,6 +38,7 @@ function App() {
         >
           Learn React
         </a>
+        {name}
       </header>
     </div>
   );
